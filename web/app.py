@@ -4,7 +4,7 @@ John Doe's Flask API.
 
 import os
 import configparser
-from flask import Flask, abort, send_from_directory, render_template
+from flask import Flask, abort, send_from_directory
 
 app = Flask(__name__)
 
@@ -14,15 +14,16 @@ def index():
 
 @app.route("/<string:file>")
 def hello(file):
-        try:
-            if ".." in file or "~" in file:
-                #abort(403)
-                return send_from_directory("pages/", "404.html"), 404
-            return send_from_directory("pages/", file), 200
-        except:
-            return send_from_directory("pages/", "403.html"), 403
-            #abort(404)
-            
+    if (".." in file) or ("~" in file):
+        #abort(403)
+        return send_from_directory("pages/", "403.html"), 40 
+
+    try:
+        return send_from_directory("pages/", file), 200
+    except:
+        #abort(404)
+        return send_from_directory("pages/", "404.html"), 404
+
 @app.errorhandler(403)
 def forbidden(error):
     return send_from_directory("pages/", "403.html"), 403
