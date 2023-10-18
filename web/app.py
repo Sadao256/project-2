@@ -16,7 +16,7 @@ def index():
 def hello(file):
     if (".." in file) or ("~" in file):
         #abort(403)
-        return send_from_directory("pages/", "403.html"), 40 
+        return send_from_directory("pages/", "403.html"), 403 
 
     try:
         return send_from_directory("pages/", file), 200
